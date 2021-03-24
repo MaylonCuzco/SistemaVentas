@@ -5,6 +5,12 @@
  */
 package Clases;
 
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author DELL
@@ -51,6 +57,26 @@ public class Administrador {
         this.contrasenia = contrasenia;
     }
     
-    
+    public boolean administrar() {
+		boolean a=false;
+        JTextField usuariot = new JTextField("");
+        JTextField contraseniat = new JTextField("");
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        panel.add(new JLabel("Usuario:"));
+        panel.add(usuariot);
+        panel.add(new JLabel("Contraseña:"));
+        panel.add(contraseniat);
+        
+        int opcion = JOptionPane.showConfirmDialog(null, panel, "Login",
+            JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (opcion == JOptionPane.OK_OPTION) {
+        	if(this.usuario.equals(usuariot.getText()) && this.contrasenia.equals(contraseniat.getText())) {
+        		a=true;
+        	}
+        } else {
+            System.exit(0);
+        }
+       return a; 
+    }
     
 }

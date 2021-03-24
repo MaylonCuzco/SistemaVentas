@@ -7,7 +7,6 @@ package BaseDatos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 /**
  *
  * @author DELL
@@ -18,10 +17,10 @@ public class Conexion {
     public  Connection conexion(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaventa","root","");
-            //System.out.println("Conexi�n Exitosa");
+            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/ventas","root","");
+            //System.out.println("Conexion Exitosa");
         }catch(ClassNotFoundException | SQLException e){
-            //System.out.println("Conexi�n Fallida");
+            //System.out.println("Conexion Fallida");
             System.err.println(e.getMessage());
         }return  cn;
     }
@@ -29,13 +28,16 @@ public class Conexion {
     	boolean conectado=false;
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaventa","root","");
-            System.out.println("Conexi�n Exitosa");
+            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/ventas","root","");
+            System.out.println("Conexion Exitosa");
             conectado=true;
         }catch(Exception e){
-            System.out.println("Conexi�n Fallida");
+            System.out.println("Conexion Fallida");
             System.err.println(e.getMessage());
         }return  conectado;
     }
-
+    public static void main(String[] args) {
+        Conexion conexion=new Conexion();
+        conexion.conexion();
+    }
 }
