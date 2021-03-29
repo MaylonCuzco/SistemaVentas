@@ -5,6 +5,14 @@
  */
 package Clases;
 
+import BaseDatos.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL
@@ -89,6 +97,73 @@ public class Cliente {
         this.cdl = cdl;
     }
      
-     
+     /**
+	 * SE GUARDA LOS DATOS DEL CLIENTE
+	 * @return
+	 */
+	public boolean registrarCliente() {
+		Conexion con=new Conexion();
+	    Connection cn=con.conexion();
+	    boolean guardado=false;
+	    if(!buscarCdl(this.getCdl())) {
+		    try{
+			    PreparedStatement pps = (PreparedStatement) cn.prepareStatement("INSERT INTO proveedor("
+			            + "nombre, telefono, email, direccion, cdl) VALUES(?,?,?,?,?)");
+			    pps.setString(1, this.nombre);
+			    pps.setString(2, this.telefono);		
+			    pps.setString(3, this.email);
+			    pps.setString(4, this.direccion); 
+			    pps.setInt(5, this.cdl);
+			    pps.executeUpdate();
+			    guardado = true;
+		    }catch(SQLException ex){
+		    	JOptionPane.showMessageDialog(null, "Error al registrar");
+		    }
+	    }else {
+	    	JOptionPane.showMessageDialog(null, "El cliente ya ha sido registrado");
+	    }
+	    return guardado;
+	}
+        
+        public boolean buscarCdl(int cdl){
+	    boolean result=false;
+	    Conexion con=new Conexion();
+	    Connection cn=con.conexion();
+	    try{
+	        Statement st=cn.createStatement();
+	        ResultSet rs=st.executeQuery("SELECT * FROM cliente WHERE cdl='"+cdl+"'");
+		        while (rs.next()) {
+		            if(rs.getString(1).equals(cdl)) {
+			        result=true;
+		            }
+		        }
+	    }catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    return result;
+	}
+        
+        public boolean actualizarCliente() {
+		boolean actualizado=false;
+		Conexion con=new Conexion();
+	    Connection cn=con.conexion();
+	    if(buscarCdl(this.getCdl())) {
+		    try{
+		        PreparedStatement pps=cn.prepareStatement("UPDATE proveedor SET "
+	        		+ "Nombre='"+this.nombre+"', "
+	        		+ "telefono='"+this.telefono+"', "
+	        		+ "email='"+this.email+"', "
+	        		+ "direccion='"+this.direccion+"', "
+	        		+ "WHERE cdl='"+this.getCdl()+"'");
+		        pps.executeUpdate();
+		        actualizado=true;
+		    }catch(SQLException ex){
+		    }
+	    }else {
+	    	JOptionPane.showMessageDialog(null, "No se ha encontrado al cliente con el #cdl: ");
+	    }
+		return actualizado;
+	}
 
+        
 }
