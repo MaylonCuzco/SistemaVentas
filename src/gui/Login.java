@@ -33,24 +33,21 @@ public class Login extends JFrame implements ActionListener{
         setTitle("Login");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500,200);
-        setResizable(true);
+        setResizable(false);
         
         panelFormulario = new JPanel();
         panelFormulario.setLayout(new GridLayout(4,3));
         panelFormulario.setVisible(true);
+        add(panelFormulario,BorderLayout.CENTER);
         
-        labUsuario = new JLabel("Usuario");
-        labClave = new JLabel("Clave");
+        labUsuario = new JLabel("Usuario: ");
+        labClave = new JLabel("Clave: ");
         
         textUsuario = new JTextField();
         textUsuario.setEditable(true);
         
         textClave = new JPasswordField();
         textClave.setEditable(true);
-        
-        btnIngresar = new JButton("Ingresar");
-        btnIngresar.setActionCommand(INGRESAR);
-        btnIngresar.addActionListener((ActionListener) panelFormulario);
         
         panelFormulario.add(new JLabel(""));
         panelFormulario.add(new JLabel(""));
@@ -69,8 +66,14 @@ public class Login extends JFrame implements ActionListener{
         panelFormulario.add(new JLabel(""));
         
         panelBotones = new JPanel();
-        panelBotones.setLayout(new GridLayout(1,3));
+        panelBotones.setLayout(new FlowLayout());
         panelBotones.setVisible(true);
+        add(panelBotones,BorderLayout.SOUTH);
+        
+        btnIngresar = new JButton("Ingresar");
+        btnIngresar.setActionCommand(INGRESAR);
+        btnIngresar.addActionListener ( this);
+        
         panelBotones.add(new JLabel(""));
         panelBotones.add(btnIngresar);
         panelBotones.add(new JLabel(""));
@@ -81,6 +84,8 @@ public class Login extends JFrame implements ActionListener{
     
     
     public static void main(String args[]){
+        Login login = new Login();
+        login.setVisible(true);
         
         
     }
