@@ -11,19 +11,35 @@ import java.sql.SQLException;
  *
  * @author DELL
  */
-public class Conexion {
-    Connection cn;
+public final class Conexiondb {
+    private static final String URL = "jdbc:mysql://localhost:3306/db_ventas";
+    private Connection conectado;
+    private static final String user="root";
+    private static final String pass="root";
     
-    public  Connection conexion(){
+    public Conexiondb() throws ClassNotFoundException{
+        conectado=conectar();
+    }
+    
+    public  Connection conectar() throws ClassNotFoundException{
+        Connection acceso =null;
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            cn=DriverManager.getConnection("jdbc:mysql://localhost:3306/ventas","root","");
-            //System.out.println("Conexion Exitosa");
-        }catch(ClassNotFoundException | SQLException e){
+            acceso=DriverManager.getConnection(URL,user,pass);
+           
+           System.out.println("Conexion Exitosa");
+        }catch(SQLException e){
             //System.out.println("Conexion Fallida");
             System.err.println(e.getMessage());
-        }return  cn;
+        }return  acceso;
     }
+
+    public Connection getConectado() {
+        return conectado;
+    }
+    
+    
+    /**
      public  boolean conexionb(){
     	boolean conectado=false;
         try{
@@ -36,8 +52,11 @@ public class Conexion {
             System.err.println(e.getMessage());
         }return  conectado;
     }
+    * **/
+    /**
     public static void main(String[] args) {
-        Conexion conexion=new Conexion();
+        Conexiondb conexion=new Conexiondb();
         conexion.conexion();
     }
+    **/
 }

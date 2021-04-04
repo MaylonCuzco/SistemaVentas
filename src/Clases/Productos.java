@@ -5,7 +5,7 @@
  */
 package Clases;
 
-import BaseDatos.Conexion;
+import BaseDatos.Conexiondb;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -113,9 +113,9 @@ public class Productos {
      * REGISTAR PRODUCTO
      */
     
-    public boolean guardarProducto() {
-		Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+    public boolean guardarProducto() throws ClassNotFoundException {
+		Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    boolean guardado=false;
 	    //EL CODIGO A�ADIDO DEBE SER DIFERENTE AL RESTO 
 	    if(!buscarCodigo(this.codigo)) {
@@ -151,11 +151,11 @@ public class Productos {
 	 * @param codigo
 	 * @return
 	 */
-	public boolean buscarProducto(String codigo){
+	public boolean buscarProducto(String codigo) throws ClassNotFoundException{
 		//SE UTILIZA AL MOMENTOS DE BUSCAR A TRAVEZ DEL CODIGO DEL PRODUCTO
 	    boolean result=false;
-	    Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+	    Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    try{
 	        Statement st=cn.createStatement();
 	        ResultSet rs=st.executeQuery("SELECT * FROM  WHERE codigo='"+codigo+"'");
@@ -178,13 +178,13 @@ public class Productos {
 	}
     
         
-        public boolean buscarCodigo(String codigo){
+        public boolean buscarCodigo(String codigo) throws ClassNotFoundException{
 		//RETORNA UN BOLEANO 
 		//SI ENCUENTRA EL MISMO CODIGO NO PERMITE GUARDAR EN LA LISTA 
 		//CASO CONTRARIO LO A�ADE A LA TABLA
 	    boolean result=false;
-	    Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+	    Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    try{
 	        Statement st=cn.createStatement();
 	        ResultSet rs=st.executeQuery("SELECT * FROM WHERE codigo='"+codigo+"'");
@@ -199,12 +199,12 @@ public class Productos {
 	    return result;
 	}
         
-        public boolean eliminarProducto() {
+        public boolean eliminarProducto() throws ClassNotFoundException {
 		//MISMA ESTRUCTIRA DEL METDOD BUSCAR CON LA DIFERENCIA 
 		//DE QUE CAMBIA LA SENTENCIA A ELIMINAR DE LA TABLA producto
 		boolean eliminado=false;
-		Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+		Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    //SE ESPECIFICA QUE ES LO QUE SE NECESITA EN LA OPERACION 
 	    //EN ESTE CASO SE REQUIERE ELIMINAR
 	    String sql="Delete from where codigo = "+codigo;

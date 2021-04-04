@@ -5,7 +5,7 @@
  */
 package Clases;
 
-import BaseDatos.Conexion;
+import BaseDatos.Conexiondb;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -101,9 +101,9 @@ public class Cliente {
 	 * SE GUARDA LOS DATOS DEL CLIENTE
 	 * @return
 	 */
-	public boolean registrarCliente() {
-		Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+	public boolean registrarCliente() throws ClassNotFoundException {
+		Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    boolean guardado=false;
 	    if(!buscarCdl(this.getCdl())) {
 		    try{
@@ -125,10 +125,10 @@ public class Cliente {
 	    return guardado;
 	}
         
-        public boolean buscarCdl(int cdl){
+        public boolean buscarCdl(int cdl) throws ClassNotFoundException{
 	    boolean result=false;
-	    Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+	    Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    try{
 	        Statement st=cn.createStatement();
 	        ResultSet rs=st.executeQuery("SELECT * FROM cliente WHERE cdl='"+cdl+"'");
@@ -143,10 +143,10 @@ public class Cliente {
 	    return result;
 	}
         
-        public boolean actualizarCliente() {
+        public boolean actualizarCliente() throws ClassNotFoundException {
 		boolean actualizado=false;
-		Conexion con=new Conexion();
-	    Connection cn=con.conexion();
+		Conexiondb con=new Conexiondb();
+	    Connection cn=con.getConectado();
 	    if(buscarCdl(this.getCdl())) {
 		    try{
 		        PreparedStatement pps=cn.prepareStatement("UPDATE proveedor SET "

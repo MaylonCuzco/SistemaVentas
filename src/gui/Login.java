@@ -6,9 +6,14 @@
 package gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
+import BaseDatos.Conexiondb;
+import BaseDatos.SqlUsuario;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.swing.JOptionPane.*;
 
 /**
  *
@@ -72,7 +77,7 @@ public class Login extends JFrame implements ActionListener{
         
         btnIngresar = new JButton("Ingresar");
         btnIngresar.setActionCommand(INGRESAR);
-        btnIngresar.addActionListener ( this);
+        btnIngresar.addActionListener (this);
         
         panelBotones.add(new JLabel(""));
         panelBotones.add(btnIngresar);
@@ -83,7 +88,8 @@ public class Login extends JFrame implements ActionListener{
     
     
     
-    public static void main(String args[]){
+    public static void main(String args[]) throws ClassNotFoundException{
+        Conexiondb con = new Conexiondb();
         Login login = new Login();
         login.setVisible(true);
         
@@ -92,6 +98,27 @@ public class Login extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String  comando =e.getActionCommand();
+        if(comando.equals(INGRESAR)){
+            SqlUsuario user = new SqlUsuario();
+            
+            String clave=String.valueOf(textClave);
+         
+            if(!textUsuario.getText().equals("")&& !clave.equals("")){
+                try {
+                    
+                    if(user.SqlLoguear(textUsuario.getText(), clave)){
+                        JOptionPane.showMessageDialog(null,"Bienvenido", "Login", INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Datos no válidos", "Login", ERROR_MESSAGE);
+                    }
+                    
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe ingresar datos");
+            }
+        }        
     }
 }
